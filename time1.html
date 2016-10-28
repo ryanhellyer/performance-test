@@ -1,0 +1,51 @@
+<doctype html>
+<html>
+<head>
+<script>
+var start_time = location.search.substring( 1 );
+
+var initial_load_time = ( Date.now() - start_time );
+
+</script>
+</head>
+<body>
+
+<p>Time to start page load: <span id="time-until-load">... loading ... </span></p>
+<p>Time to load DOM: <span id="time-until-dom">... loading ... </span></p>
+<p>Time to load whole page: <span id="time-until-page">... loading ... </span></p>
+
+<script src="jquery.js"></script>
+<script>
+
+// Initial page load time
+document.getElementById( "time-until-load" ).innerHTML = ( initial_load_time  / 1000 ) + ' s';
+
+// Total page load
+//$(window).bind("load", function() {
+window.onload = function () { 
+
+	var total_load_time = ( Date.now() - start_time );
+
+	var dom_load_time = document.getElementById( "time-until-dom" ).innerHTML;
+	window.history.pushState( null, null, "time1.html?" + initial_load_time + "," + total_load_time + "," + dom_load_time );
+
+	document.getElementById( "time-until-page" ).innerHTML = ( total_load_time / 1000 ) + ' s';
+
+//});
+}
+
+// After DOM loaded
+document.addEventListener('DOMContentLoaded', function() {
+//$(document).ready(function() {
+
+	var dom_load_time = ( Date.now() - start_time );
+	document.getElementById( "time-until-dom" ).innerHTML = ( dom_load_time / 1000 ) + "s";
+
+//});
+}, false);
+
+
+</script>
+
+</body>
+</html>
